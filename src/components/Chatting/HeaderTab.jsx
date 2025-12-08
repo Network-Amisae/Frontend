@@ -3,12 +3,15 @@ import styled from 'styled-components'
 
 const TabBox = styled.div`
   display: flex;
+  justify-content: center;
   align-items: center;
   width: 14.5625rem;
   height: 6.25rem;
   background-color: ${({ active }) => (active ? '#F4C0B3' : '#E4E4E4')};
   box-shadow: 0 4px 8.6px 2px rgba(0, 0, 0, 0.17) inset;
   border-radius: ${({ position }) => (position === 'left' ? '1.25rem 0 0 0' : '0 1.25rem 0 0')};
+  cursor: pointer;
+  gap: 0.5rem;
 `
 
 const RobotImg = styled.img`
