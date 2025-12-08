@@ -1,20 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
-import orangeMsg from '../../assets/images/orange-msg.png'
-import grayMsg from '../../assets/images/gray-msg.png'
 
 const MsgContainer = styled.div`
   display: flex;
-  width: 17.40613rem;
-  height: 3.9375rem;
+  justify-content: ${({ isRobot }) => (isRobot ? 'flex-start' : 'flex-end')};
 `
 
-const MsgBubble = styled.img``
+const MsgBubble = styled.div`
+  width: 17.40613rem;
+  height: 3.9375rem;
+  border-radius: 0.9375rem;
+  background-color: ${({ isRobot }) => (isRobot ? '#F4C0B3' : '#e4e4e4')};
+`
 
-function MessageBubble(msgBox) {
+const Text = styled.span`
+  color: #343434;
+  font-family: Inter;
+  font-size: 0.9375rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`
+
+function MessageBubble({ text, isRobot }) {
   return (
-    <MsgContainer>
-      <MsgBubble src={msgBox} />
+    <MsgContainer isRobot={isRobot}>
+      <MsgBubble isRobot={isRobot}>
+        <Text>{text}</Text>
+      </MsgBubble>
     </MsgContainer>
   )
 }
