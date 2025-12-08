@@ -1,12 +1,16 @@
-import CellView from "./components/Cell/CellView";
+import CellView from './components/Cell/CellView'
+import ChatArea from './components/Chatting/ChatArea'
 
 function App() {
-  const activeCells = [1]; //테스트 위해 사용
+  // const activeCells = [1] //테스트 위해 사용
   return (
-    <div style={{ position: "relative" }}>
-      <CellView activeCells={activeCells} />
-    </div>
-  );
+    <>
+      <ChatArea />
+    </>
+    // <div style={{ position: 'relative' }}>
+    //   <CellView activeCells={activeCells} />
+    // </div>
+  )
 }
 
-export default App;
+export default App
