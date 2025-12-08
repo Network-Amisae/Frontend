@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 import bg from "../../assets/images/cell_bg.png";
 import cell from "../../assets/images/cell.png";
@@ -44,14 +44,14 @@ export default function CellView({
       )}
 
       {cells.map((c) => {
-        const isActive = activeCells.includes(c.id);
+        const isActive = activeCells.includes(c.id)
         return (
           <CellImage
             key={c.id}
             src={isActive ? cellActive : cell}
             style={{ left: `${c.left}rem`, top: `${c.top}rem` }}
           />
-        );
+        )
       })}
 
       {labels.map((l) => (
@@ -67,7 +67,7 @@ export default function CellView({
         </CellLabel>
       ))}
     </Wrapper>
-  );
+  )
 }
 
 /* ====================== styled-components ====================== */
@@ -85,7 +85,7 @@ const MapContainer = styled.div`
   box-shadow: 0rem 0.25rem 0.625rem 0.125rem rgba(0, 0, 0, 0.1);
   border-radius: 1.25rem;
   z-index: 0;
-`;
+`
 
 const BackgroundImage = styled.img`
   position: absolute;
@@ -96,14 +96,14 @@ const BackgroundImage = styled.img`
   border-radius: 0.4375rem;
   object-fit: cover;
   z-index: 1;
-`;
+`
 
 const CellImage = styled.img`
   position: absolute;
   width: 7.6875rem;
   height: 8.5rem;
   z-index: 2;
-`;
+`
 
 const CellLabel = styled.div`
   position: absolute;
@@ -125,14 +125,14 @@ const BubbleContainer = styled.div`
   align-items: center;
   justify-content: center;
   pointer-events: none;
-`;
+`
 
 const BubbleImage = styled.img`
   position: absolute;
   width: 4.1875rem;
   height: 3.25rem;
   z-index: 3;
-`;
+`
 
 const BubbleText = styled.span`
   position: relative;
@@ -141,4 +141,4 @@ const BubbleText = styled.span`
   font-weight: 700;
   color: #464646ff;
   z-index: 4;
-`;
+`
