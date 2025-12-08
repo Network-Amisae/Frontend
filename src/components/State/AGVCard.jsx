@@ -38,8 +38,6 @@ const Card = styled.div`
   background: #fefefe;
   box-shadow: 0rem 0.25rem 0.625rem 0.125rem rgba(0, 0, 0, 0.1);
   border-radius: 1.25rem; /* 20px */
-
-  padding: 2rem; /* 32px */
 `;
 
 const Title = styled.div`
@@ -47,17 +45,18 @@ const Title = styled.div`
   font-size: 2rem; /* 32px */
 
   margin-bottom: 4.375rem; /* 70px */
-  margin-left: 0.9375rem;  /* 15px */
-  margin-top: 0.9375rem;   /* 15px */
+  margin-left: 2.56rem; 
+  margin-top: 1.81rem;   
 `;
 
 const Rows = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; /* 24px */
+  gap: 1.5rem; 
 `;
 
 const Divider = styled.div`
-  width: 100%;
-  border-top: 0.025rem solid #d1c1c1ff; /* 0.4px */
+  width: 85%;
+  margin: 0 auto;
+  border-top: 0.025rem solid #d1c1c1ff; 
 `;

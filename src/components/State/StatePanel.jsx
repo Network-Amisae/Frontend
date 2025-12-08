@@ -16,6 +16,6 @@ export default function StatePanel() {
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
-  gap: 2rem;       /* 카드 간격 */
-  padding: 2rem;   /* 화면 여백 */
+  gap: 1.44rem;       /* 카드 간격 */
+  padding: 1.5rem;   /* 화면 여백 */
 `;

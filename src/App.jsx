@@ -1,13 +1,13 @@
-import CellView from "./components/Cell/CellView";
-import StatePanel from "./components/State/StatePanel";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainPage from "./pages/MainPage";
 
 function App() {
-  const activeCells = [1]; //테스트 위해 사용
   return (
-    <div style={{ position: "relative" }}>
-      <CellView activeCells={activeCells} />
-      <StatePanel />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
