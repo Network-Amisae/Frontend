@@ -19,14 +19,14 @@ function HeaderTabGroup() {
     <>
       <Container>
         <HeaderTab
-          robotImg={activeTab === 'AGV' ? { agvGray } : { agvWhite }}
+          robotImg={activeTab === 'AGV' ? agvWhite : agvGray}
           robotName='AGV'
           position='left'
           active={activeTab === 'AGV'}
           onClick={() => setActiveTab('AGV')}
         />
         <HeaderTab
-          robotImg={activeTab === 'AMR' ? { amrGray } : { amrWhite }}
+          robotImg={activeTab === 'AMR' ? amrWhite : amrGray}
           robotName='AMR'
           active={activeTab === 'AMR'}
           onClick={() => setActiveTab('AMR')}
