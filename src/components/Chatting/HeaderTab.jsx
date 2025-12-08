@@ -29,10 +29,10 @@ const RobotName = styled.span`
   line-height: normal;
 `
 
-function HeaderTab(robotImg, robotName, position, active) {
+function HeaderTab({ robotImg, robotName, position, active, onClick }) {
   return (
     <>
-      <TabBox position={position} active={active}>
+      <TabBox position={position} active={active} onClick={onClick}>
         <RobotImg src={robotImg} active={active} />
         <RobotName active={active}>{robotName}</RobotName>
       </TabBox>
