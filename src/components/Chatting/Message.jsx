@@ -9,23 +9,31 @@ const RobotWrapper = styled.div`
   display: flex;
   gap: 8px;
   justify-content: flex-start;
+  align-items: flex-end;
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 `
 
 const CellWrapper = styled.div`
-  display: flex;
   display: flex;
   gap: 8px;
   justify-content: flex-end;
   align-items: flex-end;
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
+`
+const RobotProfileArea = styled.div`
+  display: flex;
+`
+
+const CellProfileArea = styled.div`
+  display: flex;
 `
 
 const Profile = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 4rem;
+  height: 4rem;
+  padding: 0 0.2rem 0 0.2rem;
 `
 
 const Content = styled.div`
@@ -40,10 +48,12 @@ const Name = styled.span`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  padding: 0.5rem;
 `
 
 const BubbleRow = styled.div`
   display: flex;
+  align-items: flex-end;
 `
 
 const Time = styled.span`
@@ -53,6 +63,7 @@ const Time = styled.span`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  padding: 0 0.5rem 0 0.5rem;
 `
 
 function Message({ senderType, robotType, name, text, time }) {
@@ -63,7 +74,9 @@ function Message({ senderType, robotType, name, text, time }) {
   if (isRobot) {
     return (
       <RobotWrapper isRobot={isRobot}>
-        <Profile src={profileImg} />
+        <RobotProfileArea>
+          <Profile src={profileImg} />
+        </RobotProfileArea>
         <Content>
           <Name isRobot={isRobot}>{name}</Name>
           <BubbleRow isRobot={isRobot}>
@@ -77,9 +90,24 @@ function Message({ senderType, robotType, name, text, time }) {
 
   return (
     <CellWrapper>
-      <Time>{time}</Time>
-      <MessageBubble text={text} isRobot={false} />
-      <Profile src={profileImg} />
+      <Content>
+        <Name
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+          isRobot={isRobot}
+        >
+          {name}
+        </Name>
+        <BubbleRow isRobot={isRobot}>
+          <Time isRobot={isRobot}>{time}</Time>
+          <MessageBubble text={text} isRobot={isRobot} />
+        </BubbleRow>
+      </Content>
+      <CellProfileArea>
+        <Profile src={profileImg} />
+      </CellProfileArea>
     </CellWrapper>
   )
 }
