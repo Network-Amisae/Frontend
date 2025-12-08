@@ -1,9 +1,12 @@
-import AGVCard from "./components/State/AGVCard";
+import CellView from "./components/Cell/CellView";
+import StatePanel from "./components/State/StatePanel";
 
 function App() {
+  const activeCells = [1]; //테스트 위해 사용
   return (
-    <div style={{ margin: 0, padding: 0 }}>
-      <AGVCard />
+    <div style={{ position: "relative" }}>
+      <CellView activeCells={activeCells} />
+      <StatePanel />
     </div>
   );
 }
