@@ -8,12 +8,7 @@ const TabBox = styled.div`
   height: 6.25rem;
   background-color: ${({ active }) => (active ? '#F4C0B3' : '#E4E4E4')};
   box-shadow: 0 4px 8.6px 2px rgba(0, 0, 0, 0.17) inset;
-  border-radius: ${({ position }) =>
-    position === 'left'
-      ? '1.25rem 0 0 0'
-      : position === 'right'
-        ? '0 1.25rem 0 0'
-        : '1.25rem 1.25rem 0 0'};
+  border-radius: ${({ position }) => (position === 'left' ? '1.25rem 0 0 0' : '0 1.25rem 0 0')};
 `
 
 const RobotImg = styled.img`
