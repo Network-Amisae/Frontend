@@ -1,0 +1,14 @@
+@font-face {
+  font-family: "GeekbleMalang2";
+  src: url("./assets/fonts/GeekbleMalang2OTF.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("./assets/fonts/Pretendard-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Pretendard-Bold";
+  src: url("./assets/fonts/Pretendard-Bold.otf") format("opentype");
+}
