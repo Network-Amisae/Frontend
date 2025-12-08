@@ -7,10 +7,13 @@ export default function MainPage() {
 
   return (
     <Wrapper>
-      <CellView activeCells={activeCells} />
-      <StatePanelWrapper>
+    <CellViewWrapper>
+        <CellView activeCells={activeCells} />
+    </CellViewWrapper>
+
+    <StatePanelWrapper>
         <StatePanel />
-      </StatePanelWrapper>
+    </StatePanelWrapper>
     </Wrapper>
   );
 }
@@ -25,10 +28,19 @@ const Wrapper = styled.div`
   background-color: #F5E3DE;
 `;
 
+const CellViewWrapper = styled.div`
+  position: absolute;
+  top: 9.125rem;     
+  left: 1.125rem;    
+  width: 56.875rem; 
+  height: 29.5rem;   
+  border-radius: 1.25rem; 
+`;
+
 const StatePanelWrapper = styled.div`
   position: absolute;
-  bottom: 1.5rem;
-  left: 0rem; 
+  top: 39rem;
+  bottom: 2rem;
   transform: none;
 `;
 
