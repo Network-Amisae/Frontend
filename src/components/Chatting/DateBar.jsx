@@ -1,6 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
+const DateContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  padding: 2rem 0 2rem 0;
+`
+
 const DateBox = styled.div`
   display: flex;
   justify-content: center;
@@ -23,9 +30,11 @@ const Date = styled.span`
 function DateBar() {
   return (
     <>
-      <DateBox>
-        <Date>25.12.04.(목)</Date>
-      </DateBox>
+      <DateContainer>
+        <DateBox>
+          <Date>25.12.09.(화)</Date>
+        </DateBox>
+      </DateContainer>
     </>
   )
 }
