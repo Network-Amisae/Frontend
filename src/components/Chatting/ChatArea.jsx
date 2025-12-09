@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react'
 import HeaderTabGroup from './HeaderTabGroup'
 import DateBar from './DateBar'
 import Message from './Message'
@@ -93,14 +94,32 @@ function getDateKey(timestamp) {
 }
 
 function ChatArea() {
+  const [activeTab, setActiveTab] = useState('AGV')
+
+  const filteredMessages = messages.filter((msg) => {
+    const target = activeTab.toLowerCase()
+
+    // 로봇 메시지(AGV/AMR)
+    if (msg.senderType === 'robot') {
+      return msg.robotType === target
+    }
+
+    // 셀 메시지
+    if (msg.senderType === 'cell') {
+      return msg.target === target
+    }
+
+    return false
+  })
+
   return (
     <>
       <ContentArea>
-        <HeaderTabGroup />
+        <HeaderTabGroup activeTab={activeTab} setActiveTab={setActiveTab} />
         <PaddingArea>
-          {messages.map((msg, index) => {
+          {filteredMessages.map((msg, index) => {
             const current = getDateKey(msg.timestamp)
-            const prev = index > 0 ? getDateKey(messages[index - 1].timestamp) : null
+            const prev = index > 0 ? getDateKey(filteredMessages[index - 1].timestamp) : null
 
             const showDateBar = current !== prev
 
