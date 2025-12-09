@@ -19,6 +19,69 @@ const PaddingArea = styled.div`
   flex-direction: column;
   padding: 0 1rem 0 1rem;
 `
+const messages = [
+  {
+    id: 1,
+    senderType: 'robot',
+    robotType: 'agv',
+    name: 'AGV_1',
+    text: '[ERROR] 경로 장애물이 감지되었습니다.',
+    timestamp: '2024-12-03T14:30:00.123Z',
+  },
+  {
+    id: 2,
+    senderType: 'cell',
+    robotType: null,
+    name: 'CELL A-12',
+    text: '장애물 제거 완료. 재시도하세요.',
+    timestamp: '2024-12-03T14:32:10.522Z',
+  },
+  {
+    id: 3,
+    senderType: 'robot',
+    robotType: 'agv',
+    name: 'AGV_1',
+    text: '경로 탐색을 다시 시도합니다.',
+    timestamp: '2024-12-03T14:33:40.100Z',
+  },
+  {
+    id: 4,
+    senderType: 'robot',
+    robotType: 'amr',
+    name: 'AMR_3',
+    text: '작업 구역에 도착했습니다.',
+    timestamp: '2024-12-04T09:01:12.987Z',
+  },
+  {
+    id: 5,
+    senderType: 'cell',
+    robotType: null,
+    name: 'CELL B-07',
+    text: '부품 투입을 시작합니다.',
+    timestamp: '2024-12-04T09:03:55.350Z',
+  },
+  {
+    id: 6,
+    senderType: 'cell',
+    robotType: null,
+    name: 'CELL B-07',
+    text: '부품 투입을 시작합니다.',
+    timestamp: '2024-12-06T09:03:55.350Z',
+  },
+  {
+    id: 7,
+    senderType: 'robot',
+    robotType: 'amr',
+    name: 'AMR B-07',
+    text: '부품 투입을 시작합니다.',
+    timestamp: '2024-12-07T09:03:55.350Z',
+  },
+]
+
+function getDateKey(timestamp) {
+  const d = new Date(timestamp)
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+}
 
 function ChatArea() {
   return (
@@ -26,27 +89,26 @@ function ChatArea() {
       <ContentArea>
         <HeaderTabGroup />
         <PaddingArea>
-          <DateBar date='2025-12-05T14:30:00.123Z' />
-          {/* 로봇(AGV) 메시지 */}
-          <Message
-            senderType='robot'
-            robotType='agv'
-            name='AGV_1'
-            text='[ERROR]'
-            time='오전 11:00'
-          />
+          {messages.map((msg, index) => {
+            const current = getDateKey(msg.timestamp)
+            const prev = index > 0 ? getDateKey(messages[index - 1].timestamp) : null
 
-          {/* 셀 메시지 */}
-          <Message senderType='cell' name='CELL A-12' text='응답 완료' time='오전 11:01' />
+            const showDateBar = current !== prev
 
-          {/* 로봇(AMR) 메시지 */}
-          <Message
-            senderType='robot'
-            robotType='amr'
-            name='AGV_2'
-            text='작업 시작합니다.'
-            time='오전 11:02'
-          />
+            return (
+              <React.Fragment key={msg.id}>
+                {showDateBar && <DateBar date={msg.timestamp} />}
+
+                <Message
+                  senderType={msg.senderType}
+                  robotType={msg.robotType}
+                  name={msg.name}
+                  text={msg.text}
+                  time={msg.timestamp}
+                />
+              </React.Fragment>
+            )
+          })}
         </PaddingArea>
       </ContentArea>
     </>
