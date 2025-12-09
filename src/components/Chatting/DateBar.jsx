@@ -18,7 +18,7 @@ const DateBox = styled.div`
   height: 2rem;
 `
 
-const Date = styled.span`
+const DateText = styled.span`
   color: #fff;
   font-family: Pretendard;
   font-size: 1rem;
@@ -27,12 +27,28 @@ const Date = styled.span`
   line-height: normal;
 `
 
-function DateBar() {
+function DateBar({ date: timestamp }) {
+  function formatDateToKorean(ts) {
+    // 1) 한국 시간으로 변환
+    const utcDate = new Date(ts)
+    const kstDate = new Date(utcDate.getTime() + 9 * 60 * 60 * 1000)
+
+    // 2) 월/일
+    const month = String(kstDate.getMonth() + 1).padStart(2, '0')
+    const day = String(kstDate.getDate()).padStart(2, '0')
+
+    // 3) 요일
+    const week = ['일', '월', '화', '수', '목', '금', '토']
+    const weekday = week[kstDate.getDay()]
+
+    return `${month}월 ${day}일 ${weekday}요일`
+  }
+
   return (
     <>
       <DateContainer>
         <DateBox>
-          <Date>25.12.09.(화)</Date>
+          <DateText>{formatDateToKorean(timestamp)}</DateText>
         </DateBox>
       </DateContainer>
     </>

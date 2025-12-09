@@ -26,7 +26,7 @@ function ChatArea() {
       <ContentArea>
         <HeaderTabGroup />
         <PaddingArea>
-          <DateBar />
+          <DateBar date='2025-12-05T14:30:00.123Z' />
           {/* 로봇(AGV) 메시지 */}
           <Message
             senderType='robot'
