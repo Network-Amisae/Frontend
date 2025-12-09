@@ -11,36 +11,17 @@ function App() {
     // -------------------------
     // AGV (이동 중, 대기)
     // -------------------------
-    { 
-      id: "AGV01", 
-      type: "AGV", 
-      currentCell: 1, 
-      nextCell: 3,        // 이동 중이라 필요
-      status: "moving" 
-    },
-    { 
-      id: "AGV02", 
-      type: "AGV", 
-      currentCell: 4,     // 대기 → nextCell 필요 없음
-      status: "waiting" 
-    },
+    { id: "AGV01", type: "AGV", currentCell: 1, nextCell: 3, status: "moving" },
+    // 이동 중이라 필요
+    { id: "AGV02",type: "AGV", currentCell: 4,  status: "waiting" },
+  // 대기 → nextCell 필요 없음
+
 
     // -------------------------
     // AMR (이동 중, 완료)
     // -------------------------
-    { 
-      id: "AMR01", 
-      type: "AMR", 
-      currentCell: 2, 
-      nextCell: 1,        // 이동 중
-      status: "moving" 
-    },
-    { 
-      id: "AMR02", 
-      type: "AMR", 
-      currentCell: 4,     // 완료 
-      status: "done" 
-    },
+    { id: "AMR01", type: "AMR", currentCell: 2,  nextCell: 1,  status: "moving" },
+    { id: "AMR02", type: "AMR", currentCell: 4,   status: "done" },
   ];
 
   return (
