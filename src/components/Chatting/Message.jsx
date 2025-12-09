@@ -66,6 +66,22 @@ const Time = styled.span`
   padding: 0 0.5rem 0 0.5rem;
 `
 
+function formatTimeToKorean(ts) {
+  const date = new Date(ts)
+  const kst = new Date(date.getTime() + 9 * 60 * 60 * 1000)
+
+  let hours = kst.getHours()
+  const minutes = String(kst.getMinutes()).padStart(2, '0')
+
+  const ampm = hours < 12 ? '오전' : '오후'
+
+  if (hours === 0) hours = 12
+
+  if (hours > 12) hours = hours - 12
+
+  return `${ampm} ${hours}:${minutes}`
+}
+
 function Message({ senderType, robotType, name, text, time }) {
   const isRobot = senderType === 'robot'
 
@@ -81,7 +97,7 @@ function Message({ senderType, robotType, name, text, time }) {
           <Name isRobot={isRobot}>{name}</Name>
           <BubbleRow isRobot={isRobot}>
             <MessageBubble text={text} isRobot={isRobot} />
-            <Time isRobot={isRobot}>{time}</Time>
+            <Time isRobot={isRobot}>{formatTimeToKorean(time)}</Time>
           </BubbleRow>
         </Content>
       </RobotWrapper>
@@ -101,7 +117,7 @@ function Message({ senderType, robotType, name, text, time }) {
           {name}
         </Name>
         <BubbleRow isRobot={isRobot}>
-          <Time isRobot={isRobot}>{time}</Time>
+          <Time isRobot={isRobot}>{formatTimeToKorean(time)}</Time>
           <MessageBubble text={text} isRobot={isRobot} />
         </BubbleRow>
       </Content>
