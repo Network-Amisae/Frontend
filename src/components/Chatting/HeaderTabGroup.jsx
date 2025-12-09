@@ -1,5 +1,4 @@
 import React from 'react'
-import { useState } from 'react'
 import styled from 'styled-components'
 import HeaderTab from './HeaderTab'
 import agvGray from '../../assets/icons/agv-gray.png'
@@ -12,9 +11,7 @@ const Container = styled.div`
   flex-direction: row;
 `
 
-function HeaderTabGroup() {
-  const [activeTab, setActiveTab] = useState('AGV')
-
+function HeaderTabGroup({ activeTab, setActiveTab }) {
   return (
     <>
       <Container>
