@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 import bg from "../../assets/images/cell_bg.png";
 import cell from "../../assets/images/cell.png";
@@ -7,8 +7,7 @@ import bubble from "../../assets/images/bubble.png";
 
 export default function CellView({
   activeCells = [],
-  agvCell = 1,
-  agvNumber = 1,
+  robots = [], // 백에서 항상 넘어온다고 가정
 }) {
   const cells = [
     { id: 1, left: 13.125, top: 5 },
@@ -24,34 +23,72 @@ export default function CellView({
     { id: 4, text: "CELL4", left: 43.125, top: 23.9375, rotate: -30 },
   ];
 
-  const currentCell = cells.find((c) => c.id === agvCell);
+  // "CELL_01", "CELL1", 숫자 1~4 등등을 다 id로 바꿔주는 함수
+  const findCellByRef = (ref) => {
+    if (typeof ref === "number") {
+      return cells.find((c) => c.id === ref);
+    }
+    if (typeof ref === "string") {
+      const normalized = ref
+        .toUpperCase()
+        .replace("CELL_", "")
+        .replace("CELL", "");
+
+      const num = parseInt(normalized, 10);
+      if (!Number.isNaN(num)) {
+        return cells.find((c) => c.id === num);
+      }
+    }
+    return undefined;
+  };
+
+  // 각 로봇을 실제 좌표로 변환
+  const robotPositions = (Array.isArray(robots) ? robots : [])
+    .map((r) => {
+      const cell = findCellByRef(r.cell);
+      if (!cell) return null;
+      return {
+        ...r,
+        left: cell.left,
+        top: cell.top,
+      };
+    })
+    .filter(Boolean);
 
   return (
     <Wrapper>
       <MapContainer />
       <BackgroundImage src={bg} alt="cell background" />
 
-      {currentCell && (
-        <BubbleContainer
-          style={{
-            left: `${currentCell.left + 1.8125}rem`,
-            top: `${currentCell.top - 3.3125}rem`,
-          }}
-        >
-          <BubbleImage src={bubble} alt="AGV bubble" />
-          <BubbleText>{`AGV${agvNumber}`}</BubbleText>
-        </BubbleContainer>
-      )}
+      {/* AGV 말풍선만 표시 */}
+      {robotPositions
+        .filter(
+          (robot) =>
+            robot.type === "AGV" ||
+            String(robot.id).toUpperCase().startsWith("AGV")
+        )
+        .map((robot) => (
+          <BubbleContainer
+            key={robot.id}
+            style={{
+              left: `${robot.left + 1.8125}rem`,
+              top: `${robot.top - 3.3125}rem`,
+            }}
+          >
+            <BubbleImage src={bubble} alt="AGV bubble" />
+            <BubbleText>{robot.id}</BubbleText>
+          </BubbleContainer>
+        ))}
 
       {cells.map((c) => {
-        const isActive = activeCells.includes(c.id)
+        const isActive = activeCells.includes(c.id);
         return (
           <CellImage
             key={c.id}
             src={isActive ? cellActive : cell}
             style={{ left: `${c.left}rem`, top: `${c.top}rem` }}
           />
-        )
+        );
       })}
 
       {labels.map((l) => (
@@ -67,7 +104,7 @@ export default function CellView({
         </CellLabel>
       ))}
     </Wrapper>
-  )
+  );
 }
 
 /* ====================== styled-components ====================== */
@@ -85,7 +122,7 @@ const MapContainer = styled.div`
   box-shadow: 0rem 0.25rem 0.625rem 0.125rem rgba(0, 0, 0, 0.1);
   border-radius: 1.25rem;
   z-index: 0;
-`
+`;
 
 const BackgroundImage = styled.img`
   position: absolute;
@@ -96,14 +133,14 @@ const BackgroundImage = styled.img`
   border-radius: 0.4375rem;
   object-fit: cover;
   z-index: 1;
-`
+`;
 
 const CellImage = styled.img`
   position: absolute;
   width: 7.6875rem;
   height: 8.5rem;
   z-index: 2;
-`
+`;
 
 const CellLabel = styled.div`
   position: absolute;
@@ -125,14 +162,14 @@ const BubbleContainer = styled.div`
   align-items: center;
   justify-content: center;
   pointer-events: none;
-`
+`;
 
 const BubbleImage = styled.img`
   position: absolute;
   width: 4.1875rem;
   height: 3.25rem;
   z-index: 3;
-`
+`;
 
 const BubbleText = styled.span`
   position: relative;
@@ -141,4 +178,4 @@ const BubbleText = styled.span`
   font-weight: 700;
   color: #464646ff;
   z-index: 4;
-`
+`;

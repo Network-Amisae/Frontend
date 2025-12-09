@@ -1,4 +1,4 @@
-import styled from "styled-components";
+/*import styled from "styled-components";
 import CellView from "../components/Cell/CellView";
 import StatePanel from "../components/State/StatePanel";
 
@@ -19,7 +19,7 @@ export default function MainPage() {
 }
 
 /* ------------------ Styles ------------------ */
-
+/*
 const Wrapper = styled.div`
   position: relative;
   width: 100%;
@@ -42,5 +42,5 @@ const StatePanelWrapper = styled.div`
   top: 39rem;
   bottom: 2rem;
   transform: none;
-`;
+`;*/
 
