@@ -4,7 +4,7 @@ import StatePanel from './components/State/StatePanel'
 
 function App() {
   // 테스트용 셀 활성화
-  const activeCells = [1, 3];
+  const activeCells = [1, 3]
 
   // 말풍선 + 상태패널 테스트용 로봇 데이터
   const robots = [
@@ -15,7 +15,6 @@ function App() {
     // 이동 중이라 필요
     { id: "AGV02",type: "AGV", currentCell: 4,  status: "waiting" },
   // 대기 → nextCell 필요 없음
-
 
     // -------------------------
     // AMR (이동 중, 완료)
