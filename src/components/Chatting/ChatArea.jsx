@@ -18,6 +18,8 @@ const PaddingArea = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 1rem 0 1rem;
+  flex: 1;
+  overflow-y: auto;
 `
 const messages = [
   {
