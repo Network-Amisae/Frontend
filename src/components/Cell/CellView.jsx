@@ -42,31 +42,27 @@ export default function CellView({
     return undefined;
   };
 
-  // 각 로봇을 실제 좌표로 변환
-  const robotPositions = (Array.isArray(robots) ? robots : [])
-    .map((r) => {
-      const cell = findCellByRef(r.cell);
-      if (!cell) return null;
-      return {
-        ...r,
-        left: cell.left,
-        top: cell.top,
-      };
-    })
-    .filter(Boolean);
+// 각 로봇을 실제 좌표로 변환
+const robotPositions = (Array.isArray(robots) ? robots : [])
+  .map((r) => {
+    const cell = findCellByRef(r.currentCell);   
+    if (!cell) return null;
+    return {
+      ...r,
+      left: cell.left,
+      top: cell.top,
+    };
+  })
+  .filter(Boolean);
 
   return (
     <Wrapper>
       <MapContainer />
       <BackgroundImage src={bg} alt="cell background" />
 
-      {/* AGV 말풍선만 표시 */}
+      {/* AGV 말풍선 표시 */}
       {robotPositions
-        .filter(
-          (robot) =>
-            robot.type === "AGV" ||
-            String(robot.id).toUpperCase().startsWith("AGV")
-        )
+        .filter((robot) => robot.type === "AGV")
         .map((robot) => (
           <BubbleContainer
             key={robot.id}

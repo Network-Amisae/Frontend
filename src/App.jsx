@@ -6,11 +6,22 @@ function App() {
   // 테스트용 셀 활성화
   const activeCells = [1, 3]
 
-  // 말풍선 테스트용 로봇 데이터
+  // 말풍선 + 상태패널 테스트용 로봇 데이터
   const robots = [
-    { id: 'AGV01', type: 'AGV', cell: 1 }, // CELL1 위에 말풍선
-    { id: 'AGV02', type: 'AGV', cell: 'CELL_04' }, // CELL4 위에 말풍선
-  ]
+    // -------------------------
+    // AGV (이동 중, 대기)
+    // -------------------------
+    { id: "AGV01", type: "AGV", currentCell: 1, nextCell: 3, status: "moving" },
+    // 이동 중이라 필요
+    { id: "AGV02",type: "AGV", currentCell: 4,  status: "waiting" },
+  // 대기 → nextCell 필요 없음
+
+    // -------------------------
+    // AMR (이동 중, 완료)
+    // -------------------------
+    { id: "AMR01", type: "AMR", currentCell: 2,  nextCell: 1,  status: "moving" },
+    { id: "AMR02", type: "AMR", currentCell: 4,   status: "done" },
+  ];
 
   return (
     <div
@@ -33,7 +44,7 @@ function App() {
           <CellView activeCells={activeCells} robots={robots} />
         </div>
 
-        <StatePanel />
+        <StatePanel robots={robots}/>
       </div>
 
       {/* 오른쪽: 채팅 */}

@@ -1,29 +1,26 @@
-// src/components/Card/AGVCard.jsx
+// src/components/State/AGVCard.jsx
 import styled from "styled-components";
-import StateBox from "../State/StateBox";
+import StateBox from "./StateBox";
 import agvIcon from "../../assets/images/agv.png";
 
-export default function AGVCard() {
+export default function AGVCard({ items = [] }) {
   return (
     <Card>
       <Title>AGV</Title>
 
       <Rows>
-        <StateBox
-          iconSrc={agvIcon}
-          mainText="셀 1 → 셀 3"
-          subText="다음 2셀로 이동"
-          status="moving"
-        />
+        {items.map((item, index) => (
+          <RowWrapper key={item.id || index}>
+            <StateBox
+              iconSrc={agvIcon}
+              mainText={item.mainText}
+              subText={item.subText}
+              status={item.status}
+            />
 
-        <Divider />
-
-        <StateBox
-          iconSrc={agvIcon}
-          mainText="셀 3"
-          subText="다음 작업 대기"
-          status="waiting"
-        />
+            {index !== items.length - 1 && <Divider />}
+          </RowWrapper>
+        ))}
       </Rows>
     </Card>
   );
@@ -45,18 +42,24 @@ const Title = styled.div`
   font-size: 2rem; /* 32px */
 
   margin-bottom: 4.375rem; /* 70px */
-  margin-left: 2.56rem; 
-  margin-top: 1.81rem;   
+  margin-left: 2.56rem;
+  margin-top: 1.81rem;
 `;
 
 const Rows = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem; 
+  gap: 1.5rem;
+`;
+
+const RowWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 const Divider = styled.div`
   width: 85%;
   margin: 0 auto;
-  border-top: 0.025rem solid #d1c1c1ff; 
+  border-top: 0.025rem solid #d1c1c1ff;
 `;
