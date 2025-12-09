@@ -8,13 +8,39 @@ function App() {
 
   // 말풍선 + 상태패널 테스트용 로봇 데이터
   const robots = [
-    // AGV들
-    { id: "AGV01", type: "AGV", cell: 1,        status: "moving" },  // CELL1
-    { id: "AGV02", type: "AGV", cell: 4, status: "waiting" }, // CELL4
+    // -------------------------
+    // AGV (이동 중, 대기)
+    // -------------------------
+    { 
+      id: "AGV01", 
+      type: "AGV", 
+      currentCell: 1, 
+      nextCell: 3,        // 이동 중이라 필요
+      status: "moving" 
+    },
+    { 
+      id: "AGV02", 
+      type: "AGV", 
+      currentCell: 4,     // 대기 → nextCell 필요 없음
+      status: "waiting" 
+    },
 
-    // AMR들
-    { id: "AMR01", type: "AMR", cell: 2,        status: "moving" },  // CELL2
-    { id: "AMR02", type: "AMR", cell: 4,        status: "done" }, // CELL4
+    // -------------------------
+    // AMR (이동 중, 완료)
+    // -------------------------
+    { 
+      id: "AMR01", 
+      type: "AMR", 
+      currentCell: 2, 
+      nextCell: 1,        // 이동 중
+      status: "moving" 
+    },
+    { 
+      id: "AMR02", 
+      type: "AMR", 
+      currentCell: 4,     // 완료 
+      status: "done" 
+    },
   ];
 
   return (
