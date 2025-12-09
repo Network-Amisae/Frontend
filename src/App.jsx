@@ -1,27 +1,27 @@
+// src/App.js
+
 import CellView from './components/Cell/CellView'
 import ChatArea from './components/Chatting/ChatArea'
 import StatePanel from './components/State/StatePanel'
 
+// 🔑 Custom Hook 가져오기 (경로 확인 필수)
+import { useRobotStatus } from './hooks/useRobotStatus'; 
+import { useCellData } from './hooks/useCellData'; 
+
+
 function App() {
-  // 테스트용 셀 활성화
-  const activeCells = [1, 3]
+  // ----------------------------------------------------
+  // 🔑 1단계: Custom Hook을 사용하여 실시간 데이터 가져오기
+  // ----------------------------------------------------
+  
+  // AGV/AMR 통합 로봇 데이터 (하드코딩된 robots 배열을 대체)
+  const { robotList } = useRobotStatus(); 
+  
+  // 셀 활성화/상태 데이터 (하드코딩된 activeCells 배열을 대체)
+  // useCellData Hook이 백엔드로부터 활성화된 셀 ID 배열을 받아온다고 가정
+  const { activeCells } = useCellData(); 
+  // (cell data Hook의 이름과 반환값은 백엔드 정의에 따라 다를 수 있습니다.)
 
-  // 말풍선 + 상태패널 테스트용 로봇 데이터
-  const robots = [
-    // -------------------------
-    // AGV (이동 중, 대기)
-    // -------------------------
-    { id: "AGV01", type: "AGV", currentCell: 1, nextCell: 3, status: "moving" },
-    // 이동 중이라 필요
-    { id: "AGV02",type: "AGV", currentCell: 4,  status: "waiting" },
-  // 대기 → nextCell 필요 없음
-
-    // -------------------------
-    // AMR (이동 중, 완료)
-    // -------------------------
-    { id: "AMR01", type: "AMR", currentCell: 2,  nextCell: 1,  status: "moving" },
-    { id: "AMR02", type: "AMR", currentCell: 4,   status: "done" },
-  ];
 
   return (
     <div
@@ -32,7 +32,9 @@ function App() {
         padding: '2rem',
       }}
     >
-      {/* 왼쪽: 위에 셀 맵, 아래에 상태 패널 */}
+      {/* ---------------------------------------------------- */}
+      {/* 왼쪽: 셀 맵 및 상태 패널 */}
+      {/* ---------------------------------------------------- */}
       <div
         style={{
           display: 'flex',
@@ -41,13 +43,17 @@ function App() {
         }}
       >
         <div style={{ position: 'relative' }}>
-          <CellView activeCells={activeCells} robots={robots} />
+          {/* 🔑 activeCells와 robots prop에 실시간 데이터를 전달 */}
+          <CellView activeCells={activeCells} robots={robotList} /> 
         </div>
 
-        <StatePanel robots={robots}/>
+        {/* 🔑 robots prop에 실시간 데이터를 전달 */}
+        <StatePanel robots={robotList}/>
       </div>
 
-      {/* 오른쪽: 채팅 */}
+      {/* ---------------------------------------------------- */}
+      {/* 오른쪽: 채팅 (ChatArea는 내부에서 Hook을 사용할 수 있음) */}
+      {/* ---------------------------------------------------- */}
       <ChatArea />
     </div>
   )
