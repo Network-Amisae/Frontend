@@ -7,8 +7,10 @@ const MsgContainer = styled.div`
 `
 
 const MsgBubble = styled.div`
-  width: 17.40613rem;
-  height: 3.9375rem;
+  width: 16rem;
+  height: 3.2rem;
+  display: flex;
+  align-items: center;
   padding: 0.3rem;
   border-radius: 0.9375rem;
   background-color: ${({ isRobot }) => (isRobot ? '#F4C0B3' : '#e4e4e4')};
@@ -27,6 +29,7 @@ const Text = styled.span`
   font-weight: 400;
   line-height: normal;
   padding: 0.3rem;
+  padding-left: 0.8rem;
 `
 
 function MessageBubble({ text, isRobot }) {

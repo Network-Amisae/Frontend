@@ -1,9 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
+import { useEffect } from 'react'
 import HeaderTabGroup from './HeaderTabGroup'
-import DateBar from './DateBar'
 import Message from './Message'
 import styled from 'styled-components'
+
+const WS_URLS = {
+  AGV: 'ws://localhost:9002',
+  AMR: 'ws://localhost:8889',
+}
 
 const ContentArea = styled.div`
   display: flex;
@@ -22,111 +27,100 @@ const PaddingArea = styled.div`
   flex: 1;
   overflow-y: auto;
 `
-const messages = [
-  {
-    id: 1,
-    senderType: 'robot',
-    robotType: 'agv',
-    target: 'cell',
-    name: 'AGV_1',
-    text: '[ERROR] 경로 장애물이 감지되었습니다.',
-    timestamp: '2024-12-03T14:30:00.123Z',
-  },
-  {
-    id: 2,
-    senderType: 'cell',
-    robotType: null,
-    target: 'amr',
-    name: 'CELL A-12',
-    text: '장애물 제거 완료. 재시도하세요.',
-    timestamp: '2024-12-03T14:32:10.522Z',
-  },
-  {
-    id: 3,
-    senderType: 'robot',
-    robotType: 'agv',
-    target: 'cell',
-    name: 'AGV_1',
-    text: '경로 탐색을 다시 시도합니다.',
-    timestamp: '2024-12-03T14:33:40.100Z',
-  },
-  {
-    id: 4,
-    senderType: 'robot',
-    robotType: 'amr',
-    target: 'cell',
-    name: 'AMR_3',
-    text: '작업 구역에 도착했습니다.',
-    timestamp: '2024-12-04T09:01:12.987Z',
-  },
-  {
-    id: 5,
-    senderType: 'cell',
-    robotType: null,
-    target: 'agv',
-    name: 'CELL B-07',
-    text: '부품 투입을 시작합니다.',
-    timestamp: '2024-12-04T09:03:55.350Z',
-  },
-  {
-    id: 6,
-    senderType: 'cell',
-    robotType: null,
-    target: 'amr',
-    name: 'CELL B-07',
-    text: '부품 투입을 시작합니다.',
-    timestamp: '2024-12-06T09:03:55.350Z',
-  },
-  {
-    id: 7,
-    senderType: 'robot',
-    robotType: 'amr',
-    target: 'cell',
-    name: 'AMR B-07',
-    text: '부품 투입을 시작합니다.',
-    timestamp: '2024-12-07T09:03:55.350Z',
-  },
-]
 
-function getDateKey(timestamp) {
-  const d = new Date(timestamp)
-  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+function transformMessage(raw) {
+  const { header, body } = raw
+
+  let senderType = 'cell'
+  let robotType = null
+  let target = null
+
+  // 로봇인지 구분
+  if (header.sender_id.startsWith('AGV')) {
+    senderType = 'robot'
+    robotType = 'agv'
+  } else if (header.sender_id.startsWith('AMR')) {
+    senderType = 'robot'
+    robotType = 'amr'
+  }
+
+  // 셀 → 로봇 메시지일 경우 target 판단
+  if (senderType === 'cell') {
+    if (header.receiver_id.startsWith('AGV')) {
+      target = 'agv'
+    } else if (header.receiver_id.startsWith('AMR')) {
+      target = 'amr'
+    }
+  }
+
+  const text = header.log_text || ''
+
+  return {
+    id: crypto.randomUUID(),
+    senderType,
+    robotType,
+    target,
+    name: header.sender_id,
+    text,
+    timestamp: header.timestamp,
+  }
 }
 
 function ChatArea() {
   const [activeTab, setActiveTab] = useState('AGV')
+  const [agvMessages, setAgvMessages] = useState([])
+  const [amrMessages, setAmrMessages] = useState([])
 
-  const filteredMessages = messages.filter((msg) => {
-    const target = activeTab.toLowerCase()
+  useEffect(() => {
+    const ws = new WebSocket(WS_URLS.AGV)
+    console.log(`🔌AGV WebSocket 연결됨`)
 
-    // 로봇 메시지(AGV/AMR)
-    if (msg.senderType === 'robot') {
-      return msg.robotType === target
+    ws.onmessage = (event) => {
+      const raw = JSON.parse(event.data)
+      const msg = transformMessage(raw)
+
+      console.log('📩 AGV 수신 메시지:', msg)
+
+      setAgvMessages((prev) => [...prev, msg])
     }
 
-    // 셀 메시지
-    if (msg.senderType === 'cell') {
-      return msg.target === target
+    ws.onclose = () => {
+      console.log('❌ AGV WebSocket 연결 종료')
     }
 
-    return false
-  })
+    return () => ws.close()
+  }, [])
+
+  useEffect(() => {
+    const ws = new WebSocket(WS_URLS.AMR)
+    console.log(`🔌AMR WebSocket 연결됨`)
+
+    ws.onmessage = (event) => {
+      const raw = JSON.parse(event.data)
+      const msg = transformMessage(raw)
+
+      console.log('📩 AMR 수신 메시지:', msg)
+
+      setAmrMessages((prev) => [...prev, msg])
+    }
+
+    ws.onclose = () => {
+      console.log('❌ AMR WebSocket 연결 종료')
+    }
+
+    return () => ws.close()
+  }, [])
+
+  const messagesToRender = activeTab === 'AGV' ? agvMessages : amrMessages
 
   return (
     <>
       <ContentArea>
         <HeaderTabGroup activeTab={activeTab} setActiveTab={setActiveTab} />
         <PaddingArea>
-          {filteredMessages.map((msg, index) => {
-            const current = getDateKey(msg.timestamp)
-            const prev = index > 0 ? getDateKey(filteredMessages[index - 1].timestamp) : null
-
-            const showDateBar = current !== prev
-
+          {messagesToRender.map((msg, index) => {
             return (
               <React.Fragment key={msg.id}>
-                {showDateBar && <DateBar date={msg.timestamp} />}
-
                 <Message
                   senderType={msg.senderType}
                   robotType={msg.robotType}
