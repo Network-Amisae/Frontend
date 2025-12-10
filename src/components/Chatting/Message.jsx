@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import agvProfile from '../../assets/images/profile-img.png'
-import amrProfile from '../../assets/images/profile-img.png'
-import cellProfile from '../../assets/images/profile-img.png'
+import agvProfile from '../../assets/images/chatting-agv.png'
+import amrProfile from '../../assets/images/chatting-amr.png'
+import cellProfile from '../../assets/images/chatting-cell.png'
 import MessageBubble from './MessageBubble'
 
 const RobotWrapper = styled.div`
@@ -67,16 +67,19 @@ const Time = styled.span`
 `
 
 function formatTimeToKorean(ts) {
-  const date = new Date(ts)
-  const kst = new Date(date.getTime() + 9 * 60 * 60 * 1000)
+  // timeStr 예: "05:20:42"
 
-  let hours = kst.getHours()
-  const minutes = String(kst.getMinutes()).padStart(2, '0')
+  const [hh, mm] = ts.split(':').map(Number)
+
+  let hours = hh
+  const minutes = String(mm).padStart(2, '0')
 
   const ampm = hours < 12 ? '오전' : '오후'
 
+  // 0시는 12시로 표기
   if (hours === 0) hours = 12
 
+  // 13~23시는 1~11로 변환
   if (hours > 12) hours = hours - 12
 
   return `${ampm} ${hours}:${minutes}`
